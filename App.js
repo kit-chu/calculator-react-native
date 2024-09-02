@@ -2,6 +2,9 @@ import { StyleSheet, Text, View } from "react-native";
 import * as Font from "expo-font";
 import AppNavigatior from "./router/AppNavigatior";
 import React, { useState, useEffect } from "react";
+import DrawerLayout from "./router/DrawerLayout";
+import { NavigationContainer } from "@react-navigation/native";
+import { Header } from "@react-navigation/stack";
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -29,7 +32,11 @@ export default function App() {
     return null; // หรือหน้าโหลดชั่วคราว
   }
 
-  return <AppNavigatior />;
+  return (
+    <NavigationContainer>
+      <DrawerLayout />
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({

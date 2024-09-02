@@ -29,9 +29,12 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/SUSE-Regular.ttf"]
+          "fonts": [
+            "./assets/fonts/SUSE-Regular.ttf"
+          ]
         }
-      ]
+      ],
+      "expo-router"
     ]
   }
 }
