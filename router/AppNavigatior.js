@@ -15,6 +15,7 @@ export default function AppNavigatior({ navigation }) {
       initialRouteName="Calculator"
       screenOptions={{
         headerRight: () => <ThemeToggle />,
+
         headerLeft: () => (
           <MaterialIcons
             name="menu"
@@ -27,7 +28,7 @@ export default function AppNavigatior({ navigation }) {
       }}
     >
       <Stack.Screen
-        name="Calculator"
+        name="CalculatorPage"
         component={Calculator}
         options={{
           title: "Calculator",

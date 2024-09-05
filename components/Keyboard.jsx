@@ -1,9 +1,17 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import IconVertor from "@expo/vector-icons";
+import {
+  Feather,
+  FontAwesome6,
+  Entypo,
+  Octicons,
+  AntDesign,
+} from "@expo/vector-icons";
 
 // Define your ButtonCalculator component
-const ButtonCalculator = ({ label, type, color }) => {
+const ButtonCalculator = ({ label, type, color, name, typeIcon }) => {
   let content;
 
   switch (type) {
@@ -11,12 +19,14 @@ const ButtonCalculator = ({ label, type, color }) => {
       content = <Ionicons name={label} size={24} color="black" />;
       break;
     case "Image":
-      content = (
-        <Image
-          source={require("../assets/multiply.png")}
-          style={{ width: 26, height: 26 }}
-        />
-      );
+      content = <Image source={part} style={{ width: 24, height: 24 }} />;
+      break;
+    case "IconVector":
+      content = React.createElement(typeIcon, {
+        name: name,
+        size: 24,
+        color: color || "#313136",
+      });
       break;
     default:
       content = (
@@ -50,6 +60,8 @@ export default function Keyboard() {
                 label={item.label}
                 type={item.type}
                 color={item.color}
+                name={item.name}
+                typeIcon={item.typeIcon}
               />
             </View>
           ))}
@@ -64,7 +76,12 @@ export default function Keyboard() {
         <View style={styles.container_2}>
           {data2.map((item) => (
             <View key={item.id} style={styles.column}>
-              <ButtonCalculator label={item.label} type={item.type} />
+              <ButtonCalculator
+                label={item.label}
+                type={item.type}
+                typeIcon={item.typeIcon}
+                name={item.name}
+              />
             </View>
           ))}
         </View>
@@ -73,7 +90,13 @@ export default function Keyboard() {
         <View style={styles.container_4}>
           {data4.map((item) => (
             <View key={item.id} style={styles.column}>
-              <ButtonCalculator label={item.label} type={item.type} />
+              <ButtonCalculator
+                label={item.label}
+                type={item.type}
+                name={item.name}
+                typeIcon={item.typeIcon}
+                color={item.color}
+              />
             </View>
           ))}
         </View>
@@ -99,7 +122,13 @@ const manageValue = () => {
 
 const manageValue2 = () => {
   return [
-    { id: 10, label: "repeat-outline", type: "Ionicons" },
+    {
+      id: 10,
+      label: "reload1",
+      name: "reload1",
+      type: "IconVector",
+      typeIcon: AntDesign,
+    },
     { id: 11, label: "0" },
     { id: 12, label: "." },
   ];
@@ -108,18 +137,60 @@ const manageValue2 = () => {
 const manageValue3 = () => {
   return [
     { id: 13, label: "AC", type: "", color: "#F2361C" },
-    { id: 14, label: "+-", type: "", color: "#F2361C" },
+    {
+      id: 14,
+      label: "plus-minus",
+      type: "IconVector",
+      color: "#F2361C",
+      name: "plus-minus",
+      typeIcon: FontAwesome6,
+    },
     { id: 15, label: "%", type: "", color: "#F2361C" },
   ];
 };
 
 const manageValue4 = () => {
   return [
-    { id: 16, label: "devide", type: "Image" },
-    { id: 17, label: "multiply", type: "Image" },
-    { id: 18, label: "delete", type: "Image" },
-    { id: 19, label: "plus", type: "Image" },
-    { id: 20, label: "equal", type: "Image" },
+    {
+      id: 16,
+      label: "divide",
+      type: "IconVector",
+      name: "divide",
+      typeIcon: Feather,
+      color: "#FBA936",
+    },
+    {
+      id: 17,
+      label: "multiply",
+      type: "IconVector",
+      name: "cross",
+      color: "#FBA936",
+      typeIcon: Entypo,
+    },
+    {
+      id: 18,
+      label: "delete",
+      type: "IconVector",
+      name: "dash",
+      typeIcon: Octicons,
+      color: "#FBA936",
+    },
+    {
+      id: 19,
+      label: "plus",
+      type: "IconVector",
+      name: "plus",
+      typeIcon: Entypo,
+      color: "#FBA936",
+    },
+    {
+      id: 20,
+      label: "equal",
+      type: "IconVector",
+      name: "equals",
+      typeIcon: FontAwesome6,
+      color: "#FBA936",
+    },
   ];
 };
 

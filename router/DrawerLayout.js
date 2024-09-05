@@ -8,7 +8,7 @@ const DrawerLayout = () => {
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen
-        name="Home"
+        name="Calculator"
         component={AppNavigatior}
         options={{ headerShown: false }}
       />
