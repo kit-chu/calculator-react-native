@@ -11,7 +11,7 @@ import {
 } from "@expo/vector-icons";
 
 // Define your ButtonCalculator component
-const ButtonCalculator = ({ label, type, color, name, typeIcon }) => {
+const ButtonCalculator = ({ label, type, color, name, typeIcon, onPress }) => {
   let content;
 
   switch (type) {
@@ -37,14 +37,14 @@ const ButtonCalculator = ({ label, type, color, name, typeIcon }) => {
   }
 
   return (
-    <TouchableOpacity style={styles.bt_click_active}>
+    <TouchableOpacity style={styles.bt_click_active} onPress={onPress}>
       {content}
     </TouchableOpacity>
   );
 };
 
 // Define your main Keyboard component
-export default function Keyboard() {
+export default function Keyboard({ onKeyPress }) {
   const data = manageValue().reverse();
   const data2 = manageValue2();
   const data3 = manageValue3();
@@ -62,6 +62,7 @@ export default function Keyboard() {
                 color={item.color}
                 name={item.name}
                 typeIcon={item.typeIcon}
+                onPress={() => onKeyPress(item.label)}
               />
             </View>
           ))}
@@ -69,7 +70,10 @@ export default function Keyboard() {
         <View style={styles.container_1}>
           {data.map((item) => (
             <View key={item.id} style={styles.column}>
-              <ButtonCalculator label={item.label} />
+              <ButtonCalculator
+                label={item.label}
+                onPress={() => onKeyPress(item.label)}
+              />
             </View>
           ))}
         </View>
@@ -81,6 +85,7 @@ export default function Keyboard() {
                 type={item.type}
                 typeIcon={item.typeIcon}
                 name={item.name}
+                onPress={() => onKeyPress(item.label)}
               />
             </View>
           ))}
@@ -96,6 +101,7 @@ export default function Keyboard() {
                 name={item.name}
                 typeIcon={item.typeIcon}
                 color={item.color}
+                onPress={() => onKeyPress(item.label)}
               />
             </View>
           ))}
@@ -136,7 +142,13 @@ const manageValue2 = () => {
 
 const manageValue3 = () => {
   return [
-    { id: 13, label: "AC", type: "", color: "#F2361C" },
+    {
+      id: 13,
+      label: "AC",
+      type: "",
+      color: "#F2361C",
+      onPress: () => onKeyPress("delete"),
+    },
     {
       id: 14,
       label: "plus-minus",
