@@ -7,11 +7,13 @@ import { evaluate } from "mathjs";
 
 export default function Create() {
   const [inputText, setInputText] = useState("0");
+  const [resultText, setResultText] = useState("");
 
   const handleKeyPress = (key) => {
     setInputText((prevText) => {
       if (prevText === "Error") {
         if (key === "AC" || key === "reload1") {
+          setResultText("");
           return "0";
         }
         return key;
@@ -19,7 +21,8 @@ export default function Create() {
 
       switch (key) {
         case "AC":
-          return "";
+          setResultText("");
+          return "0";
         case "reload1":
           return prevText.slice(0, -1);
         case "divide":
@@ -27,7 +30,16 @@ export default function Create() {
         case "multiply":
           return prevText + "×";
         case "plus-minus":
-          return prevText.startsWith("-") ? prevText.slice(1) : "-" + prevText;
+          if (prevText === "0") {
+            return "-0";
+          } else if (prevText === "-0") {
+            return prevText;
+          } else if (/^-?\d+(\.\d+)?$/.test(prevText)) {
+            return prevText.startsWith("-")
+              ? prevText.slice(1)
+              : "-" + prevText;
+          }
+          return prevText;
         case "plus":
           return prevText + "+";
         case "delete":
@@ -60,27 +72,18 @@ export default function Create() {
               (match, p1, p2, p3, p4, p5) => `(${p1} * (${p4} / 100))`
             );
             const result = evaluate(percentFormattedText);
-            return String(result);
+            setResultText(String(result));
+            return prevText;
           } catch {
+            setResultText("Error");
             return "Error";
           }
         default:
-          // Handle numeric and dot input
-          if (key === "0") {
-            // If current input is "0", replace it with "0" only if no other numbers were input
-            return prevText === "0" || prevText.endsWith(" ")
-              ? prevText
-              : prevText + key;
+          if (prevText === "-0" && key !== "0" && key !== ".") {
+            // ถ้า prevText เป็น -0 และมีการพิมพ์ตัวเลขที่ไม่ใช่ 0 หรือจุดทศนิยม
+            // แทนที่ด้วย - และตัวเลขที่พิมพ์
+            return "-" + key;
           }
-          if (key === ".") {
-            // Append "." only if there is a number before the "."
-            const lastNumber = prevText.split(/[\+\-\×\÷\s]/).pop();
-            if (!lastNumber || lastNumber.includes(".")) {
-              return prevText; // If no number before or already contains ".", do nothing
-            }
-            return prevText + key;
-          }
-          // Handle other numeric and operator inputs
           if (prevText === "0" || prevText === "") {
             return key; // Replace initial "0" or empty with the first number
           }
@@ -96,7 +99,11 @@ export default function Create() {
   return (
     <View style={styles.container}>
       <View style={styles.section1}>
-        <DisplayCalculator display={inputText} onPress={handleTextChange} />
+        <DisplayCalculator
+          display={inputText}
+          onPress={handleTextChange}
+          result={resultText}
+        />
       </View>
       <View style={styles.section2}>
         <Keyboard onKeyPress={handleKeyPress} />

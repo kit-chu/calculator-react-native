@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 
-function DisplayCalculator({ display, onTextChange }) {
+function DisplayCalculator({ display, result, onTextChange }) {
   const [texts, setText] = useState(display);
   const inputRef = useRef(null);
 
@@ -25,12 +25,12 @@ function DisplayCalculator({ display, onTextChange }) {
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
-        <Text style={styles.tx_box1}>444+333</Text>
+        <Text style={styles.tx_box1}>{texts}</Text>
       </View>
       <View style={styles.box2}>
         <TextInput
           onChangeText={handleTextChange}
-          value={texts}
+          value={result}
           style={styles.tx_box2}
           keyboardType="numeric"
           scrollEnabled={true}
