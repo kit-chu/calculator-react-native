@@ -22,15 +22,30 @@ function DisplayCalculator({ display, result, onTextChange }) {
     }
   };
 
+  const formatNumber = (number) => {
+    // แปลงเป็นสตริง
+    if (typeof number !== "string") {
+      number = String(number);
+    }
+
+    // ใช้ regex เพื่อแทรกลูกน้ำ
+    const formattedNumber = number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // แสดงผลลัพธ์ใน console
+    console.log(formattedNumber);
+
+    return formattedNumber;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
-        <Text style={styles.tx_box1}>{texts}</Text>
+        <Text style={styles.tx_box1}>{formatNumber(texts)}</Text>
       </View>
       <View style={styles.box2}>
         <TextInput
           onChangeText={handleTextChange}
-          value={result}
+          value={formatNumber(result)}
           style={styles.tx_box2}
           keyboardType="numeric"
           scrollEnabled={true}

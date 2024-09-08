@@ -9,6 +9,21 @@ export default function Create() {
   const [inputText, setInputText] = useState("0");
   const [resultText, setResultText] = useState("");
 
+  const formatNumber = (number) => {
+    // แปลงเป็นสตริง
+    if (typeof number !== "string") {
+      number = String(number);
+    }
+
+    // ใช้ regex เพื่อแทรกลูกน้ำ
+    const formattedNumber = number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // แสดงผลลัพธ์ใน console
+    console.log(formattedNumber);
+
+    return formattedNumber;
+  };
+
   const handleKeyPress = (key) => {
     setInputText((prevText) => {
       if (prevText === "Error") {
